@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gitlab</title>
+    <link rel="stylesheet" type="text/css" href="static/css/jquery.dataTables.css">
+    <link rel="stylesheet" type="text/css" href="static/css/buttons.dataTables.min.css">
+    <link rel="stylesheet" type="text/css" href="static/css/bootstrap.min.css">
+    <!-- jQuery -->
+    <script type="text/javascript" charset="utf8" src="static/js/jquery-3.5.1.js"></script>
+    
+    <!-- DataTables -->
+    <script type="text/javascript" charset="utf8" src="static/js/jquery.dataTables.js"></script>
+    <script type="text/javascript" charset="utf8" src="static/js/dataTables.buttons.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="static/js/buttons.flash.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="static/js/jszip.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="static/js/pdfmake.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="static/js/vfs_fonts.js"></script>
+    <script type="text/javascript" charset="utf8" src="static/js/buttons.html5.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="static/js/buttons.print.min.js"></script>
+    <script type="text/javascript" charset="utf8" src="static/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <h2 style="text-align:center">成都Gitlab项目代码贡献数查询</h2>
+<form action="/", method="POST" class="form-inline">
+    <div style="text-align: center;">
+    开始时间：<input class="form-control" type="datetime-local" value="2020-09-24T00:00:00" name="t1">
+    结束时间: <input class="form-control" type="datetime-local" value="2020-09-24T00:00:00" name="t2">
+    
+    <button class="btn btn-success" type="submit">查询</button>
+    <button id="btnexport" class="btn btn-primary" >导出全部</button>
+    </div>
+    <br>
+    <table class="table" id="table">
+        <thead>
+            <tr>
+              <th>项目名</th>
+              <th>开发者</th>
+              <th>分支</th>
+              <th>添加代码行数</th>
+              <th>删除代码行数</th>
+              <th>提交总行数</th>
+              <th>提交次数</th>
+            </tr>
+        </thead>
+        <tbody>
+           {%for i in msg%}
+              <tr>
+                  <td>{{i.项目名}}</td>
+                  <td>{{i.开发者}}</td>
+                  <td>{{i.分支}}</td>
+                  <td>{{i.添加代码行数}}</td>
+                  <td>{{i.删除代码行数}}</td>
+                  <td>{{i.提交总行数}}</td>
+                  <td>{{i.提交次数}}</td>
+              </tr>
+           {%endfor%}
+        </tbody>
+      </table>
+</form>
+
+<script>
+    $(document).ready( function () {
+        $('#table').DataTable({
+            dom: 'Bfrtip',
+            buttons: [ 
+            {
+                extend: 'excel',
+                text: '导出全部'
+            }
+            ],
+            initComplete: function() {
+    var $buttons = $('.dt-buttons').hide();
+        $('#btnexport').on('click', function() {
+            var btnClass = ".buttons-excel";
+            if (btnClass) $buttons.find(btnClass).click();
+        })
+    },
+            language:{
+        "processing": "处理中...",
+        "lengthMenu": "显示 _MENU_ 项结果",
+        "zeroRecords": "没有匹配结果",
+        "info": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+        "infoEmpty": "显示第 0 至 0 项结果，共 0 项",
+        "infoFiltered": "(由 _MAX_ 项结果过滤)",
+        "infoPostFix": "",
+        "search": "搜索:",
+        "searchPlaceholder": "搜索...",
+        "url": "",
+        "emptyTable": "表中数据为空",
+        "loadingRecords": "载入中...",
+        "infoThousands": ",",
+        "paginate": {
+            "first": "首页",
+            "previous": "上页",
+            "next": "下页",
+            "last": "末页"
+        },
+        "aria": {
+            "paginate": {
+                "first": "首页",
+                "previous": "上页",
+                "next": "下页",
+                "last": "末页"
+            },
+            "sortAscending": "以升序排列此列",
+            "sortDescending": "以降序排列此列"
+        },
+        "thousands": "."
+    }
+           
+        });
+    } );
+</script>
+
+
+</body>
+</html>
