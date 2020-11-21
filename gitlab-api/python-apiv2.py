@@ -1,13 +1,10 @@
-import time
 import gitlab
-import pandas as pd
-from io import BytesIO
-from flask import Flask,render_template,request,make_response,send_file
+from flask import Flask,render_template,request
 
 app = Flask(__name__,template_folder="templates",static_folder="static")
 app.debug=True
 
-gl = gitlab.Gitlab('http://code.gome.inc/gitlab',private_token='ve9ifEu9ZtAeqWik1L_y',timeout=50, api_version='4')
+gl = gitlab.Gitlab('http://code.xxxx.inc/gitlab',private_token='ve9ifEu9ZtAeqWik',timeout=50, api_version='4')
 
 
     
